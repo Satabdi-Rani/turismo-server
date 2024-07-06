@@ -27,6 +27,33 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const userCollection = client.db("turismoDB").collection('users');
+    const touristSpotsCollection = client.db("turismoDB").collection('touristspots');
+
+    //  
+    app.get('/touristspots', async (req, res) => {
+       const cursor = touristSpotsCollection.find();
+       const result = await cursor.toArray();
+       res.send(result);
+    })
+
+
+
+
+
+    // User creation through register
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
+
+
+
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -38,10 +65,10 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res)=> {
-    res.send("tursimo is running");
+app.get('/', (req, res) => {
+  res.send("tursimo is running");
 })
 
-app.listen(port, ()=> {
-    console.log(`port is running on ${port} `)
+app.listen(port, () => {
+  console.log(`port is running on ${port} `)
 })
