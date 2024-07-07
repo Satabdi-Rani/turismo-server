@@ -30,6 +30,7 @@ async function run() {
 
     const userCollection = client.db("turismoDB").collection('users');
     const touristSpotsCollection = client.db("turismoDB").collection('touristspots');
+    const addTouristSpot = client.db("turismoDB").collection('addTouristSpot');
 
     //  
     app.get('/touristspots', async (req, res) => {
@@ -43,6 +44,13 @@ async function run() {
       const query = {_id: new ObjectId(id)};
       const result = await touristSpotsCollection.findOne(query);
       res.send(result);
+    })
+
+    // add Tourist Spot
+    app.post('/addtouristspot', async(req, res)=> {
+       const addSpot = req.body;
+       const result = await addTouristSpot.insertOne(addSpot);
+       res.send(result);
     })
 
 
