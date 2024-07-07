@@ -53,6 +53,13 @@ async function run() {
        res.send(result);
     })
 
+    // get all tourist spot
+    app.get('/alltouristspot', async(req, res)=> {
+      const cursor = addTouristSpot.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
 
 
 
